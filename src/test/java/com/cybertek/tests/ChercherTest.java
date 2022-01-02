@@ -1,7 +1,12 @@
 package com.cybertek.tests;
 
 import com.cybertek.utilities.WebDriveFactory;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,7 +22,7 @@ public class ChercherTest {
     4. Then handle the Javascript alert
 */
     WebDriver driver;// declare our reference for the object
-
+    WebDriverWait wait;
     @BeforeMethod
     public void setUp() {
         driver = WebDriveFactory.getDriver("chrome"); //create the object
@@ -35,8 +40,17 @@ public class ChercherTest {
 
     @Test
     public void alertPresentTest(){
+        //2. Click on "Click me, to Open an alert after 5 seconds"
+        WebElement initiateAlert = driver.findElement(By.id("alert"));
+        initiateAlert.click();
 
+         wait = new WebDriverWait(driver,10);
+         wait.until(ExpectedConditions.alertIsPresent());
 
+        //handle javascript alert
+        // you don't wait  you will get org.openqa.selenium.NoAlertPresentException: no such alert
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
 
 
     }
